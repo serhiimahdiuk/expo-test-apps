@@ -1,13 +1,14 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { SIZE, X } from "./constants";
+import { Mark } from "./types";
 
 export default ({
   item,
   onCellPress,
   isWinCell,
 }: {
-  item: string;
+  item: Mark | number;
   onCellPress: () => void;
   isWinCell?: boolean;
 }) => {
@@ -23,9 +24,11 @@ export default ({
           alignItems: "center",
         }}
       >
-        <Text style={{ fontSize: 64, color: isWinCell ? "green" : color }}>
-          {item}
-        </Text>
+        {typeof item !== "number" && (
+          <Text style={{ fontSize: 64, color: isWinCell ? "green" : color }}>
+            {item}
+          </Text>
+        )}
       </View>
     </Pressable>
   );

@@ -5,7 +5,11 @@ import { width } from "../../utils/metrics";
 import { O, WIN_COMBINATIONS, X } from "./constants";
 import PlaygroundGrid from "./PlaygroundGrid";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Playground } from "./types";
+import { Mark, Playground } from "./types";
+import { checIfWinnerFound } from "./utils";
+import { minimax } from "./AI";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Settings from "./Settings";
 
 const styles = StyleSheet.create({
   container: { alignItems: "center", flex: 1 },
@@ -20,16 +24,17 @@ const styles = StyleSheet.create({
 
 export default () => {
   const [playground, setPlayground] = useState<Playground>(
-    new Array(9).fill(undefined)
+    new Array(9).fill(0).map((_, idx) => idx)
   );
-  const [player, setPlayer] = useState<typeof X | typeof O>(X);
   const [winner, setWinner] = useState<string | undefined>(undefined);
   const [winCombination, setWinCombination] = useState<number[]>([]);
+  const [withAI, setWithAI] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
 
   const [history, setHistory] = useState<
     {
       playground: typeof playground;
-      player: typeof player;
+      player: Mark;
       position: [row: number, col: number];
     }[]
   >([]);
@@ -37,52 +42,59 @@ export default () => {
   const scroll = useRef<FlatList<(typeof history)[0]>>(null);
 
   const isPlaygroundFilled = !useMemo(
-    () => playground.some((i) => i === undefined),
+    () => playground.some((i) => typeof i === "number"),
     [playground]
   );
   const isGameOver = winner || isPlaygroundFilled;
 
   const resetState = () => {
-    setPlayground(new Array(9).fill(undefined));
+    setPlayground(new Array(9).fill(0).map((_, idx) => idx));
     setWinner(undefined);
-    setPlayer(X);
     setHistory([]);
+    setWinCombination([]);
+  };
+
+  const AI = (nextPlayground: Playground) => {
+    const best = minimax([...nextPlayground], O);
+    if (best.index !== undefined && typeof best.index === "number") {
+      nextPlayground[best.index] = O;
+      setHistory((last) => [
+        ...last,
+        {
+          player: O,
+          playground: nextPlayground,
+          position: [
+            Math.floor(Number(best.index) / 3),
+            (Number(best.index) % 3) + 1,
+          ],
+        },
+      ]);
+    }
   };
 
   const onStep = (index: number) => {
     if (!isGameOver) {
       const nextPlayground = [...playground];
-      if (nextPlayground[index] === undefined) {
-        nextPlayground[index] = player;
-        setPlayground(nextPlayground);
+      if (typeof nextPlayground[index] === "number") {
+        nextPlayground[index] = X;
         setHistory((last) => [
           ...last,
           {
-            player: player,
+            player: X,
             playground: nextPlayground,
             position: [Math.floor(index / 3), (index % 3) + 1],
           },
         ]);
       }
-      changePlayer();
+      AI(nextPlayground);
+      setPlayground(nextPlayground);
     }
-  };
-
-  const changePlayer = () => {
-    setPlayer((prev) => (prev === X ? O : X));
   };
 
   const checkWiner = () => {
-    for (let combination of WIN_COMBINATIONS) {
-      if (
-        playground[combination[0] - 1] !== undefined &&
-        playground[combination[0] - 1] === playground[combination[1] - 1] &&
-        playground[combination[1] - 1] === playground[combination[2] - 1]
-      ) {
-        setWinner(playground[combination[0] - 1]);
-        setWinCombination(combination);
-      }
-    }
+    const Xwinner = checIfWinnerFound(playground, X, setWinCombination);
+    const Owinner = checIfWinnerFound(playground, O, setWinCombination);
+    if (Xwinner || Owinner) setWinner(Owinner ? O : X);
   };
 
   const onRestartGamePress = () => {
@@ -101,7 +113,7 @@ export default () => {
 
   const renderText = () => {
     if (!isGameOver) {
-      return `Next player: ${player}`;
+      return `Next player: ${X}`;
     } else {
       return winner ? `Winner: ${winner}` : `Have no winners`;
     }
@@ -109,7 +121,6 @@ export default () => {
 
   const chooseStepFromHistory = (item: (typeof history)[0], index: number) => {
     setPlayground(item.playground);
-    setPlayer(item.player);
     setHistory((prev) => prev.slice(0, index + 1));
     setWinner(undefined);
     setWinCombination([]);
@@ -119,14 +130,27 @@ export default () => {
     <SafeAreaView style={styles.container} edges={["bottom"]}>
       <View style={styles.menuRow}>
         <Text style={{ paddingVertical: 10 }}>{renderText()}</Text>
-        <Button
-          text={"Restart Game"}
-          onPress={onRestartGamePress}
-          fullWidth={false}
-          containerStyle={{
-            paddingHorizontal: 10,
-          }}
-        />
+        <View style={{ flexDirection: "row" }}>
+          <Button
+            text={"Restart Game"}
+            icon={<MaterialCommunityIcons name="restart" size={30} />}
+            onPress={onRestartGamePress}
+            fullWidth={false}
+            containerStyle={{
+              paddingHorizontal: 10,
+              marginRight: 10,
+            }}
+          />
+          <Button
+            text={"Settings"}
+            icon={<MaterialCommunityIcons name="cog" size={30} />}
+            onPress={() => setShowSettings(true)}
+            fullWidth={false}
+            containerStyle={{
+              paddingHorizontal: 10,
+            }}
+          />
+        </View>
       </View>
       <PlaygroundGrid
         playground={playground}
@@ -157,6 +181,10 @@ export default () => {
             }}
           />
         )}
+      />
+      <Settings
+        isModalVisible={showSettings}
+        setIsModalVisible={setShowSettings}
       />
     </SafeAreaView>
   );

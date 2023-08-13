@@ -30,6 +30,7 @@ interface Props {
   containerStyle?: ViewStyle;
   textStyle?: TextStyle;
   fullWidth?: boolean;
+  icon?: React.ReactElement;
 }
 
 export default ({
@@ -37,6 +38,7 @@ export default ({
   onPress,
   containerStyle,
   textStyle,
+  icon,
   fullWidth = true,
 }: Props) => {
   return (
@@ -51,13 +53,17 @@ export default ({
               containerStyle,
             ]}
           >
-            <Text
-              style={[styles.text, textStyle]}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {text}
-            </Text>
+            {icon ? (
+              icon
+            ) : (
+              <Text
+                style={[styles.text, textStyle]}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {text}
+              </Text>
+            )}
           </View>
         );
       }}
