@@ -12,7 +12,6 @@ import { width } from "../../utils/metrics";
 const styles = StyleSheet.create({
   container: {
     height: 45,
-    width: width - 40,
     marginVertical: 20,
     borderRadius: 5,
     justifyContent: "center",
@@ -30,9 +29,16 @@ interface Props {
   onPress: () => void;
   containerStyle?: ViewStyle;
   textStyle?: TextStyle;
+  fullWidth?: boolean;
 }
 
-export default ({ text, onPress, containerStyle, textStyle }: Props) => {
+export default ({
+  text,
+  onPress,
+  containerStyle,
+  textStyle,
+  fullWidth = true,
+}: Props) => {
   return (
     <Pressable onPress={onPress}>
       {({ pressed }) => {
@@ -40,6 +46,7 @@ export default ({ text, onPress, containerStyle, textStyle }: Props) => {
           <View
             style={[
               styles.container,
+              fullWidth && { width: width - 40 },
               pressed && { opacity: 0.7 },
               containerStyle,
             ]}

@@ -1,10 +1,16 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import EmptyModule from "../modules/EmptyModule";
+// import EmptyModule from "../modules/EmptyModule";
 import HomeScreen from "../screens/HomeScreen";
+import TicTacToeModule from "../modules/TicTacToeModule";
 
-const ModulesStack = createStackNavigator();
+export type ModulesStackParamList = {
+  HomeScreen: undefined;
+  TicTacToe: undefined;
+};
+
+const ModulesStack = createStackNavigator<ModulesStackParamList>();
 
 export const ModulesStackNavigator = () => {
   return (
@@ -14,10 +20,10 @@ export const ModulesStackNavigator = () => {
         component={HomeScreen}
         options={{ title: "Games" }}
       />
+      <ModulesStack.Screen name="TicTacToe" component={TicTacToeModule} />
       {/* <ModulesStack.Screen
         name="EmptyModule"
         component={EmptyModule}
-        options={{ headerShown: false }}
       /> */}
     </ModulesStack.Navigator>
   );
