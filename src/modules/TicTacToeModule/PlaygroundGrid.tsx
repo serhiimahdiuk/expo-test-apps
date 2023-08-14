@@ -2,15 +2,19 @@ import React from "react";
 import { View } from "react-native";
 import Cell from "./Cell";
 import { Playground } from "./types";
+import Loader from "../../components/Loader";
+import { SIZE } from "./constants";
 
 export default ({
   playground,
   onStep,
   winCombination,
+  loading,
 }: {
   playground: Playground;
   onStep: (idx: number) => void;
   winCombination: number[];
+  loading?: boolean;
 }) => {
   const rows = new Array(3).fill(0);
   return (
@@ -31,6 +35,16 @@ export default ({
           </View>
         );
       })}
+      {loading && (
+        <Loader
+          fullScreen
+          containerStyle={{
+            position: "absolute",
+            height: "100%",
+            width: (SIZE + 1) * 3,
+          }}
+        />
+      )}
     </View>
   );
 };
