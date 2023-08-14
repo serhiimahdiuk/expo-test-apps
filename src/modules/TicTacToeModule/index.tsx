@@ -78,9 +78,9 @@ export default () => {
           ],
         },
       ]);
-      setLoading(false);
       setPlayground(nextPlayground);
     }
+    setLoading(false);
   };
 
   const playerStep = (nextPlayground: Playground, index: number) => {
