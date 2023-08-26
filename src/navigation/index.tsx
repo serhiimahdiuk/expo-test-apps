@@ -4,10 +4,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 // import EmptyModule from "../modules/EmptyModule";
 import HomeScreen from "../screens/HomeScreen";
 import TicTacToeModule from "../modules/TicTacToeModule";
+import Snake from "../modules/Snake";
 
 export type ModulesStackParamList = {
   HomeScreen: undefined;
   TicTacToe: undefined;
+  Snake: undefined;
 };
 
 const ModulesStack = createStackNavigator<ModulesStackParamList>();
@@ -21,6 +23,11 @@ export const ModulesStackNavigator = () => {
         options={{ title: "Games" }}
       />
       <ModulesStack.Screen name="TicTacToe" component={TicTacToeModule} />
+      <ModulesStack.Screen
+        name="Snake"
+        component={Snake}
+        options={{ gestureEnabled: false }}
+      />
       {/* <ModulesStack.Screen
         name="EmptyModule"
         component={EmptyModule}
