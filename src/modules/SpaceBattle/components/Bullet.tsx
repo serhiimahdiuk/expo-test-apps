@@ -1,14 +1,16 @@
 import React, { ComponentProps } from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import { PrefabComponentProps } from "../types";
 import { useAnimationData } from "../context/AnimationProvider";
 import { detectCollision } from "../utils";
 import {
+  BULLET_ASSET_WIDTH,
   BULLET_HEIGHT,
   BULLET_WIDTH,
   ENEMY_HEIGHT,
   ENEMY_WIDTH,
 } from "../constants";
+import Images from "../assets";
 
 export default ({ x, y, id, destroy }: PrefabComponentProps) => {
   const {
@@ -29,16 +31,28 @@ export default ({ x, y, id, destroy }: PrefabComponentProps) => {
 
   return (
     <View
-      style={[
-        {
+      style={{
+        height: BULLET_HEIGHT,
+        width: BULLET_WIDTH,
+        position: "absolute",
+        top: y,
+        left: x,
+        overflow: "hidden",
+      }}
+    >
+      <Image
+        source={Images.lasers}
+        style={{
+          width: BULLET_ASSET_WIDTH,
           height: BULLET_HEIGHT,
-          width: BULLET_WIDTH,
-          backgroundColor: "black",
-          position: "absolute",
-          top: y,
-          left: x,
-        },
-      ]}
-    />
+          transform: [
+            {
+              translateX:
+                (-BULLET_ASSET_WIDTH / 4) * 1 - BULLET_ASSET_WIDTH / 4 / 3,
+            },
+          ],
+        }}
+      />
+    </View>
   );
 };

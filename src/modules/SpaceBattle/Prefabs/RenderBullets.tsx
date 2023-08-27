@@ -1,7 +1,7 @@
 import React from "react";
 import Renderer from "../components/Renderer";
 import { height } from "../../../utils/metrics";
-import { SHIP_HEIGHT, SHIP_WIDTH } from "../constants";
+import { BULLET_HEIGHT, SHIP_HEIGHT, SHIP_WIDTH } from "../constants";
 import { useAnimationData } from "../context/AnimationProvider";
 import Bullet from "../components/Bullet";
 
@@ -10,12 +10,12 @@ export default () => {
   return (
     <Renderer
       Component={Bullet}
-      count={10}
+      count={15}
       timeout={1}
       name={"bullets"}
       startPoint={() => ({
-        x: (sharedData.ship?.x || 0) + SHIP_WIDTH + 10,
-        y: (sharedData.ship?.y || 0) + SHIP_HEIGHT / 2,
+        x: (sharedData.ship?.x || 0) + SHIP_WIDTH,
+        y: (sharedData.ship?.y || 0) + (SHIP_HEIGHT - BULLET_HEIGHT) / 2,
       })}
       mapRule={(i) => ({
         ...i,

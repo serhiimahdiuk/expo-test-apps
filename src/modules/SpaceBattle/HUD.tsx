@@ -18,22 +18,31 @@ const Header = () => {
         justifyContent: "space-between",
       }}
     >
-      <MaterialCommunityIcons
-        name={"close-circle-outline"}
-        size={30}
-        onPress={() => {
-          navigation.goBack();
-        }}
-      />
-      {run && (
-        <MaterialCommunityIcons
-          name={"pause"}
-          size={30}
-          onPress={() => {
-            togglePlayPause();
-          }}
-        />
-      )}
+      <View style={{ flex: 1 }}>
+        {!run && (
+          <MaterialCommunityIcons
+            name={"close-circle-outline"}
+            color={"white"}
+            size={30}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          />
+        )}
+      </View>
+      <View style={{ flex: 1, alignItems: "center" }}></View>
+      <View style={{ flex: 1, alignItems: "flex-end" }}>
+        {run && (
+          <MaterialCommunityIcons
+            name={"pause"}
+            size={30}
+            color={"white"}
+            onPress={() => {
+              togglePlayPause();
+            }}
+          />
+        )}
+      </View>
     </View>
   );
 };

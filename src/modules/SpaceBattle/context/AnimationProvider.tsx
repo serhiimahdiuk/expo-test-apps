@@ -43,6 +43,8 @@ export default ({ children }: React.PropsWithChildren) => {
   const sharedData = useRef<any>({});
 
   const panGesture = Gesture.Pan()
+    .maxPointers(1)
+    .hitSlop({ left: 0, width: height / 2 })
     .onTouchesDown((e) => {
       panPosition.current.x = e.allTouches[0].x;
       panPosition.current.y = e.allTouches[0].y;
