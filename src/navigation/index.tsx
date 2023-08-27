@@ -5,11 +5,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import TicTacToeModule from "../modules/TicTacToeModule";
 import Snake from "../modules/Snake";
+import SpaceBattle from "../modules/SpaceBattle";
 
 export type ModulesStackParamList = {
   HomeScreen: undefined;
   TicTacToe: undefined;
   Snake: undefined;
+  SpaceBattle: undefined;
 };
 
 const ModulesStack = createStackNavigator<ModulesStackParamList>();
@@ -27,6 +29,11 @@ export const ModulesStackNavigator = () => {
         name="Snake"
         component={Snake}
         options={{ gestureEnabled: false }}
+      />
+      <ModulesStack.Screen
+        name="SpaceBattle"
+        component={SpaceBattle}
+        options={{ gestureEnabled: false, headerShown: false }}
       />
       {/* <ModulesStack.Screen
         name="EmptyModule"

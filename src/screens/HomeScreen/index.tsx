@@ -4,7 +4,11 @@ import Button from "../../components/Button";
 import { useAppNavigation } from "../../navigation/hooks";
 import { ModulesStackParamList } from "../../navigation";
 
-const GAMES: (keyof ModulesStackParamList)[] = ["TicTacToe", "Snake"];
+const GAMES: (keyof ModulesStackParamList)[] = [
+  "TicTacToe",
+  "Snake",
+  "SpaceBattle",
+];
 
 export default () => {
   const navigation = useAppNavigation();
