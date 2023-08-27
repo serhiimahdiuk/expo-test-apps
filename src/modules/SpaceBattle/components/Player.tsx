@@ -2,15 +2,12 @@ import React, { useRef } from "react";
 import { ActionType, useAnimationData } from "../context/AnimationProvider";
 import { width } from "../../../utils/metrics";
 import { View } from "react-native";
-
-const SHIP_HEIGHT = 30;
-const SHIP_WIDTH = 50;
+import Gun from "./Gun";
+import { SHIP_HEIGHT, SHIP_WIDTH } from "../constants";
 
 export default () => {
   const {
     panPosition: { actionType, y },
-    deltaTime,
-    run,
   } = useAnimationData();
 
   const playerPosition = useRef({
@@ -24,23 +21,23 @@ export default () => {
     playerPosition.current.y = y - SHIP_HEIGHT / 2;
   }
 
-  if (!run) return null;
   return (
-    <View
-      style={[
-        {
-          position: "absolute",
-          height: SHIP_HEIGHT,
-          width: SHIP_WIDTH,
-          backgroundColor: "red",
-          left: playerPosition.current.x,
-          top: playerPosition.current.y,
-        },
-        {
-          top: playerPosition.current.y,
-          left: playerPosition.current.x,
-        },
-      ]}
-    />
+    <>
+      <Gun shipPosition={playerPosition.current} />
+      <View
+        style={[
+          {
+            position: "absolute",
+            height: SHIP_HEIGHT,
+            width: SHIP_WIDTH,
+            backgroundColor: "red",
+          },
+          {
+            top: playerPosition.current.y,
+            left: playerPosition.current.x,
+          },
+        ]}
+      />
+    </>
   );
 };

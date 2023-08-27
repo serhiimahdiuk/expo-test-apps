@@ -1,19 +1,13 @@
 import { useEffect, useReducer, useRef } from "react";
-
-export type AnimatioCycleParams = {
-  frameCount: number;
-};
-
-type Callback = (props: AnimatioCycleParams) => void;
+import { useAnimationData } from "../modules/SpaceBattle/context/AnimationProvider";
 
 interface Props {
   run: boolean;
-  withForceUpdate?: boolean;
 }
 
 const PERFECT_FRAME_TIME = 1000 / 60;
 
-export default ({ run, withForceUpdate = false }: Props) => {
+export default ({ run }: Props) => {
   const animationId = useRef<number>();
   const frameCount = useRef<number>(0);
   const deltaTime = useRef<number>(0);
@@ -38,4 +32,11 @@ export default ({ run, withForceUpdate = false }: Props) => {
     };
   }, [run]);
   return { frameCount: frameCount.current, deltaTime: deltaTime.current };
+};
+
+export const useConsole = (v: string | number) => {
+  const { frameCount } = useAnimationData();
+  if (frameCount % 60 === 0) {
+    console.log(v);
+  }
 };
