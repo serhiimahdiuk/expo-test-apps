@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
-import { ActionType, useAnimationData } from "../context/AnimationProvider";
+import { useAnimationData } from "../context/AnimationProvider";
 import { width } from "../../../utils/metrics";
 import { View } from "react-native";
 import Gun from "./Gun";
 import { SHIP_HEIGHT, SHIP_WIDTH } from "../constants";
+import { ActionType } from "../types";
 
 export default () => {
   const {
     panPosition: { actionType, y },
+    sharedData,
   } = useAnimationData();
 
   const playerPosition = useRef({

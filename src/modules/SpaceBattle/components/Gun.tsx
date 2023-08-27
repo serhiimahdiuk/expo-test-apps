@@ -11,8 +11,10 @@ interface Props {
 }
 
 export default ({ shipPosition }: Props) => {
-  const { deltaTime, frameCount } = useAnimationData();
+  const { deltaTime, frameCount, shareParams } = useAnimationData();
   const bullets = useRef<Position[]>([]);
+
+  shareParams("bullets", bullets.current);
 
   if (bullets.current.length < 10 && frameCount % 60 === 0) {
     bullets.current.push({

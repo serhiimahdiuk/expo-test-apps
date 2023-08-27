@@ -1,35 +1,15 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import useAnimationCycle from "../../../hooks/useAnimationCycle";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { View } from "react-native";
 import { height, width } from "../../../utils/metrics";
+import { ActionType, AnimationContextType, PanPosition } from "../types";
 
-export const ActionType = {
-  UNDETERMINED: 0,
-  TOUCHES_DOWN: 1,
-  TOUCHES_MOVE: 2,
-};
-
-export declare type AcrtionType = (typeof ActionType)[keyof typeof ActionType];
-
-export type PanPosition = {
-  x: number;
-  y: number;
-  translateX: number;
-  translateY: number;
-  actionType: AcrtionType;
-};
-
-export const AnimationContext = React.createContext<
-  ReturnType<typeof useAnimationCycle> & {
-    togglePlayPause: (v?: boolean) => void;
-    run: boolean;
-    panPosition: PanPosition;
-  }
->({
+const emptyState = {
   frameCount: 0,
   deltaTime: 0,
   togglePlayPause: () => null,
+  shareParams: () => null,
   run: false,
   panPosition: {
     x: 0,
@@ -38,7 +18,11 @@ export const AnimationContext = React.createContext<
     translateY: 0,
     actionType: 0,
   },
-});
+  sharedData: {},
+};
+
+export const AnimationContext =
+  React.createContext<AnimationContextType>(emptyState);
 
 export const useAnimationData = () => {
   const data = useContext(AnimationContext);
@@ -55,6 +39,8 @@ export default ({ children }: React.PropsWithChildren) => {
     translateY: 0,
     actionType: ActionType.UNDETERMINED,
   });
+
+  const sharedData = useRef<any>({});
 
   const panGesture = Gesture.Pan()
     .onTouchesDown((e) => {
@@ -83,6 +69,22 @@ export default ({ children }: React.PropsWithChildren) => {
       setRun(!run);
     }
   };
+
+  const shareParams = (key: string, data?: any) => {
+    if (key) {
+      sharedData.current = {
+        ...shareParams,
+        [key]: data,
+      };
+    }
+  };
+
+  useEffect(() => {
+    if (!run) {
+      sharedData.current = emptyState.sharedData;
+    }
+  }, [run]);
+
   return (
     <AnimationContext.Provider
       value={{
@@ -90,6 +92,8 @@ export default ({ children }: React.PropsWithChildren) => {
         togglePlayPause,
         run,
         panPosition: panPosition.current,
+        sharedData: sharedData.current,
+        shareParams,
       }}
     >
       <GestureDetector gesture={panGesture}>
@@ -105,4 +109,11 @@ export default ({ children }: React.PropsWithChildren) => {
       </GestureDetector>
     </AnimationContext.Provider>
   );
+};
+
+export const useConsole = (v: string | number) => {
+  const { frameCount } = useAnimationData();
+  if (frameCount % 60 === 0) {
+    console.log(v);
+  }
 };

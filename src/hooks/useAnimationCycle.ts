@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef } from "react";
-import { useAnimationData } from "../modules/SpaceBattle/context/AnimationProvider";
 
 interface Props {
   run: boolean;
@@ -32,11 +31,4 @@ export default ({ run }: Props) => {
     };
   }, [run]);
   return { frameCount: frameCount.current, deltaTime: deltaTime.current };
-};
-
-export const useConsole = (v: string | number) => {
-  const { frameCount } = useAnimationData();
-  if (frameCount % 60 === 0) {
-    console.log(v);
-  }
 };
