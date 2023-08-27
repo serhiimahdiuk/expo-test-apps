@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { useAnimationData } from "../context/AnimationProvider";
-import { Position, Prefab } from "../types";
+import { Position, Prefab, PrefabComponent } from "../types";
 import uuid from "react-native-uuid";
 
 interface Props {
   startPoint: () => Position;
-  Component: (props: Prefab) => JSX.Element;
+  Component: PrefabComponent;
   count: number;
   timeout: number;
   name: string;
@@ -51,10 +51,14 @@ export default ({
       return true;
     });
 
+  const destroy = (id: string) => {
+    prefabs.current = prefabs.current.filter((i) => i.id !== id);
+  };
+
   return (
     <>
       {prefabs.current.map((i) => (
-        <Component {...i} key={i.id} />
+        <Component {...i} key={i.id} destroy={destroy} />
       ))}
     </>
   );

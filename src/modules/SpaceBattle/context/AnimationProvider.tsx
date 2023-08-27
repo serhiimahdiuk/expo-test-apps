@@ -73,7 +73,7 @@ export default ({ children }: React.PropsWithChildren) => {
   const shareParams = (key: string, data?: any) => {
     if (key) {
       sharedData.current = {
-        ...shareParams,
+        ...sharedData.current,
         [key]: data,
       };
     }

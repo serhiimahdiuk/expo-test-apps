@@ -3,10 +3,19 @@ export type Position = {
   y: number;
 };
 
+export type Rect = Position & {
+  w: number;
+  h: number;
+};
+
 export type Prefab = Position & {
   id: string;
   isDestroyed: boolean;
 };
+
+export type PrefabComponentProps = Prefab & { destroy: (id: string) => void };
+
+export type PrefabComponent = (props: PrefabComponentProps) => JSX.Element;
 
 export const ActionType = {
   UNDETERMINED: 0,
@@ -29,7 +38,11 @@ export type AnimationContextType = {
   shareParams: (key: string, data?: any) => void;
   run: boolean;
   panPosition: PanPosition;
-  sharedData: any;
+  sharedData: {
+    enemies?: Prefab[];
+    ship?: Position;
+    bullets?: Prefab[];
+  };
   frameCount: number;
   deltaTime: number;
 };

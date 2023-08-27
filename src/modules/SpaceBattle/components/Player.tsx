@@ -2,20 +2,23 @@ import React, { useRef } from "react";
 import { useAnimationData } from "../context/AnimationProvider";
 import { width } from "../../../utils/metrics";
 import { View } from "react-native";
-import Gun from "./Gun";
+import Gun from "./Bullet";
 import { SHIP_HEIGHT, SHIP_WIDTH } from "../constants";
 import { ActionType } from "../types";
+import RenderBullets from "../Prefabs/RenderBullets";
 
 export default () => {
   const {
     panPosition: { actionType, y },
-    sharedData,
+    shareParams,
   } = useAnimationData();
 
   const playerPosition = useRef({
     x: 100,
     y: width / 2 - SHIP_HEIGHT / 2,
   });
+
+  shareParams("ship", playerPosition.current);
 
   if (actionType === ActionType.TOUCHES_DOWN) {
     playerPosition.current.y = y - SHIP_HEIGHT / 2;
@@ -25,7 +28,7 @@ export default () => {
 
   return (
     <>
-      <Gun shipPosition={playerPosition.current} />
+      <RenderBullets />
       <View
         style={[
           {
