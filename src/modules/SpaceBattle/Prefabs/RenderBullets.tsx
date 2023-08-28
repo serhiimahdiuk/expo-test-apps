@@ -13,10 +13,12 @@ export default () => {
       count={15}
       timeout={1}
       name={"bullets"}
-      startPoint={() => ({
-        x: (sharedData.ship?.x || 0) + SHIP_WIDTH,
-        y: (sharedData.ship?.y || 0) + (SHIP_HEIGHT - BULLET_HEIGHT) / 2,
-      })}
+      startPoint={() =>
+        sharedData.ship && {
+          x: sharedData.ship.x + SHIP_WIDTH,
+          y: sharedData.ship.y + (SHIP_HEIGHT - BULLET_HEIGHT) / 2,
+        }
+      }
       mapRule={(i) => ({
         ...i,
         x: i.x + 2 * deltaTime,

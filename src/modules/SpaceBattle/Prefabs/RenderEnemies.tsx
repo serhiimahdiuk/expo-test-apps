@@ -17,7 +17,7 @@ export default () => {
       timeout={2}
       name={"enemies"}
       startPoint={() => ({
-        x: height + 5,
+        x: height + 20,
         y: randomValueByRange(
           0 + ENEMY_HEIGHT + BORDERS,
           width - ENEMY_HEIGHT - BORDERS

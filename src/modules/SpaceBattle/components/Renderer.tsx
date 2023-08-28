@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useAnimationData } from "../context/AnimationProvider";
 import { Position, Prefab, PrefabComponent } from "../types";
 import uuid from "react-native-uuid";
 
 interface Props {
-  startPoint: () => Position;
+  startPoint: () => Position | undefined;
   Component: PrefabComponent;
   count: number;
   timeout: number;
@@ -25,14 +25,22 @@ export default ({
   const { frameCount, shareParams } = useAnimationData();
   const prefabs = useRef<Prefab[]>([]);
 
+  useEffect(() => {
+    return () => {
+      prefabs.current = [];
+    };
+  }, []);
+
   shareParams(name, prefabs.current);
 
   if (prefabs.current.length < count && frameCount % (timeout * 60) === 0) {
-    prefabs.current.push({
-      ...startPoint(),
-      isDestroyed: false,
-      id: uuid.v4() as string,
-    });
+    const point = startPoint();
+    if (point)
+      prefabs.current.push({
+        ...point,
+        isDestroyed: false,
+        id: uuid.v4() as string,
+      });
   }
 
   prefabs.current = prefabs.current

@@ -16,6 +16,9 @@ export default ({ run }: Props) => {
     animationId.current = requestAnimationFrame(anim);
     deltaTime.current =
       (timestamp - lastTimeStamp.current) / PERFECT_FRAME_TIME;
+    if (deltaTime.current > 2) {
+      deltaTime.current = 1;
+    }
     lastTimeStamp.current = timestamp;
     frameCount.current += 1;
     forceUpdate();

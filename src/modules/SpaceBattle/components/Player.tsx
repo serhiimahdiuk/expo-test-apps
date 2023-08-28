@@ -8,33 +8,40 @@ import {
   SHIP_HEIGHT,
   SHIP_WIDTH,
 } from "../constants";
-import { ActionType } from "../types";
+import { ActionType, Position } from "../types";
 import RenderBullets from "../Prefabs/RenderBullets";
 import Images from "../assets";
 
 export default () => {
   const {
-    panPosition: { actionType, y, x },
+    panPosition: { actionType, y, x, translateX, translateY },
     shareParams,
   } = useAnimationData();
 
-  const playerPosition = useRef({
+  const playerPosition = useRef<Position>({
     x: 100,
     y: width / 2 - SHIP_HEIGHT / 2,
   });
 
+  const lastPostition = useRef<Position>();
+
   shareParams("ship", playerPosition.current);
 
-  const nextX = x - SHIP_WIDTH / 2;
-  const nextY = y - SHIP_HEIGHT / 2;
+  const nextX =
+    (lastPostition.current?.x || playerPosition.current.x) + translateX;
+  const nextY =
+    (lastPostition.current?.y || playerPosition.current.y) + translateY;
 
-  if (actionType === ActionType.TOUCHES_DOWN) {
-    playerPosition.current.y = nextY;
-    if (nextX < height / 2 - 50 && nextX > 50)
-      playerPosition.current.x = x - SHIP_WIDTH / 2;
-  } else if (actionType === ActionType.TOUCHES_MOVE) {
+  if (actionType === ActionType.TOUCHES_MOVE) {
+    if (!lastPostition.current) {
+      lastPostition.current = { ...playerPosition.current };
+    }
     playerPosition.current.y = nextY;
     if (nextX < height / 2 - 50 && nextX > 50) playerPosition.current.x = nextX;
+  } else if (actionType === ActionType.UNDETERMINED) {
+    if (lastPostition.current) {
+      lastPostition.current = undefined;
+    }
   }
 
   return (
