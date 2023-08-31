@@ -4,19 +4,24 @@ import { PrefabComponentProps } from "../types";
 import { useAnimationData } from "../context/AnimationProvider";
 import { detectCollision } from "../utils";
 import {
-  BULLET_ASSET_WIDTH,
   BULLET_HEIGHT,
   BULLET_WIDTH,
   ENEMY_HEIGHT,
   ENEMY_WIDTH,
 } from "../constants";
-import Images from "../assets";
+import { Images } from "../assets";
+import { useAssets } from "expo-asset";
+import { useGetAssets } from "../../../contexts/AssetsContext";
 
 export default ({ x, y, id, destroy }: PrefabComponentProps) => {
+  const data = useGetAssets()["laser"];
+  const asset = {
+    height: data.height || 0,
+    width: data.width || 0,
+  };
   const {
     sharedData: { enemies },
   } = useAnimationData();
-
   if (
     enemies &&
     enemies.some((el) =>
@@ -43,12 +48,11 @@ export default ({ x, y, id, destroy }: PrefabComponentProps) => {
       <Image
         source={Images.lasers}
         style={{
-          width: BULLET_ASSET_WIDTH,
+          width: asset.width,
           height: BULLET_HEIGHT,
           transform: [
             {
-              translateX:
-                (-BULLET_ASSET_WIDTH / 4) * 1 - BULLET_ASSET_WIDTH / 4 / 3,
+              translateX: (-asset.width / 4) * 1 - asset.width / 4 / 3,
             },
           ],
         }}

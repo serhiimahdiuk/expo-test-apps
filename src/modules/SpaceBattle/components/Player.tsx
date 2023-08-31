@@ -10,11 +10,11 @@ import {
 } from "../constants";
 import { ActionType, Position } from "../types";
 import RenderBullets from "../Prefabs/RenderBullets";
-import Images from "../assets";
+import { Images } from "../assets";
 
 export default () => {
   const {
-    panPosition: { actionType, y, x, translateX, translateY },
+    panPosition: { actionType, translateX, translateY },
     shareParams,
   } = useAnimationData();
 

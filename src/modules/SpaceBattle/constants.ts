@@ -7,8 +7,5 @@ export const SHIP_WIDTH = SHIP_ASSET_WIDTH / 5;
 export const ENEMY_HEIGHT = 30;
 export const ENEMY_WIDTH = 30;
 
-export const BULLET_ASSET_HEIGHT = 64;
-export const BULLET_ASSET_WIDTH = (256 * BULLET_ASSET_HEIGHT) / 64;
-
 export const BULLET_HEIGHT = 10;
 export const BULLET_WIDTH = 20;
