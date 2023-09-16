@@ -35,3 +35,28 @@ export default ({ run }: Props) => {
   }, [run]);
   return { frameCount: frameCount.current, deltaTime: deltaTime.current };
 };
+
+export const useLocalTimer = () => {
+  const localFrames = useRef(0);
+  const localTimer = useRef(0);
+  const isRunning = useRef(true);
+  if (isRunning.current) {
+    localFrames.current += 1;
+    localTimer.current = localFrames.current / 60;
+  }
+
+  const resetTimer = () => {
+    localFrames.current = 0;
+    localTimer.current = 0;
+  };
+  const toggleTimer = () => {
+    isRunning.current = !isRunning.current;
+  };
+
+  return {
+    timer: localTimer.current,
+    resetTimer,
+    toggleTimer,
+    isRunning: isRunning.current,
+  };
+};
