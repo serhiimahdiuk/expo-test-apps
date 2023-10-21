@@ -1,30 +1,38 @@
 import Matter from "matter-js";
 import { Entities } from "../types";
+import { GameEngineUpdateEventOptionType } from "react-native-game-engine";
 
-const MAX_SPEED = 5;
+const RUN_SPEED = 5;
+const WALK_SPEED = 2;
 
-export default (entities: Entities) => {
-  const directions = entities.directions;
-  if (Math.abs(entities.player.xAxis) < 0.3) {
+export default (
+  entities: Entities,
+  { time }: GameEngineUpdateEventOptionType
+) => {
+  const directions = entities.player.directions;
+  const speed =
+    directions.actionY && entities.player.isOnGround ? WALK_SPEED : RUN_SPEED;
+  if (Math.abs(entities.player.xAxis) < 0.1) {
     entities.player.xAxis = 0;
   }
-  if (entities.player.xAxis <= MAX_SPEED) {
-    if (directions.left && entities.player.xAxis > -MAX_SPEED) {
-      entities.player.xAxis -= 1;
-    } else if (directions.right && entities.player.xAxis < MAX_SPEED) {
-      entities.player.xAxis += 1;
+  if (entities.player.xAxis <= speed) {
+    if (directions.left && entities.player.xAxis > -speed) {
+      entities.player.xAxis -= 0.8;
+    } else if (directions.right && entities.player.xAxis < speed) {
+      entities.player.xAxis += 0.8;
     }
   }
   if (entities.player.xAxis > 0) {
-    entities.player.xAxis -= 0.2;
+    entities.player.xAxis -= 0.3;
   } else if (entities.player.xAxis < 0) {
-    entities.player.xAxis += 0.2;
+    entities.player.xAxis += 0.3;
   }
+
   if (entities.player.isWallCollied) {
     if (entities.player.xAxis > 0) {
-      entities.player.xAxis = -1.2;
+      entities.player.xAxis = -1.0;
     } else {
-      entities.player.xAxis = 1.2;
+      entities.player.xAxis = 1.0;
     }
   }
 
@@ -36,12 +44,15 @@ export default (entities: Entities) => {
   }
 
   if (
-    directions.actionOne &&
+    directions.actionX &&
     entities.player.isOnGround &&
     entities.player.body.velocity.y === 0
   ) {
     entities.player.xAxis = 0;
-    Matter.Body.setVelocity(entities.player.body, { x: 0, y: -7 });
+    Matter.Body.setVelocity(entities.player.body, {
+      x: entities.player.body.velocity.x,
+      y: -13,
+    });
   }
 
   return entities;

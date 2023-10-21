@@ -7,7 +7,7 @@ import entities from "../entities";
 const SIZE = 60;
 
 interface Props {
-  directions: MutableRefObject<typeof entities.directions>;
+  directions: MutableRefObject<typeof entities.player.directions>;
 }
 
 const Button = ({
@@ -57,7 +57,7 @@ export default ({ directions }: Props) => {
           <MaterialCommunityIcons
             name="arrow-up-bold-box"
             size={SIZE}
-            color="black"
+            color="white"
           />
         </Button>
         <View style={{ flexDirection: "row" }}>
@@ -72,7 +72,7 @@ export default ({ directions }: Props) => {
             <MaterialCommunityIcons
               name="arrow-left-bold-box"
               size={SIZE}
-              color="black"
+              color="white"
             />
           </Button>
 
@@ -89,7 +89,7 @@ export default ({ directions }: Props) => {
             <MaterialCommunityIcons
               name="arrow-right-bold-box"
               size={SIZE}
-              color="black"
+              color="white"
             />
           </Button>
         </View>
@@ -104,11 +104,15 @@ export default ({ directions }: Props) => {
           <MaterialCommunityIcons
             name="arrow-down-bold-box"
             size={SIZE}
-            color="black"
+            color="white"
           />
         </Button>
       </View>
-      <View style={{ justifyContent: "space-between" }}>
+      <View
+        style={{
+          justifyContent: "space-between",
+        }}
+      >
         <Button
           style={{
             alignSelf: "center",
@@ -118,35 +122,79 @@ export default ({ directions }: Props) => {
             borderWidth: 4,
             borderRadius: 10,
             alignItems: "center",
+            backgroundColor: "white",
           }}
           onTouchStart={() => {
-            directions.current.actionOne = true;
+            directions.current.actionB = true;
           }}
           onTouchEnd={() => {
-            directions.current.actionOne = false;
-          }}
-        >
-          <Text style={{ fontSize: 40 }}>A</Text>
-        </Button>
-
-        <Button
-          style={{
-            alignSelf: "center",
-            height: SIZE,
-            width: SIZE,
-            justifyContent: "center",
-            borderWidth: 4,
-            borderRadius: 10,
-            alignItems: "center",
-          }}
-          onTouchStart={() => {
-            directions.current.actionTwo = true;
-          }}
-          onTouchEnd={() => {
-            directions.current.actionTwo = false;
+            directions.current.actionB = false;
           }}
         >
           <Text style={{ fontSize: 40 }}>B</Text>
+        </Button>
+        <View style={{ flexDirection: "row" }}>
+          <Button
+            style={{
+              alignSelf: "center",
+              height: SIZE,
+              width: SIZE,
+              justifyContent: "center",
+              borderWidth: 4,
+              borderRadius: 10,
+              alignItems: "center",
+              backgroundColor: "white",
+            }}
+            onTouchStart={() => {
+              directions.current.actionA = true;
+            }}
+            onTouchEnd={() => {
+              directions.current.actionA = false;
+            }}
+          >
+            <Text style={{ fontSize: 40 }}>A</Text>
+          </Button>
+          <View style={{ width: SIZE }} />
+          <Button
+            style={{
+              alignSelf: "center",
+              height: SIZE,
+              width: SIZE,
+              justifyContent: "center",
+              borderWidth: 4,
+              borderRadius: 10,
+              alignItems: "center",
+              backgroundColor: "white",
+            }}
+            onTouchStart={() => {
+              directions.current.actionY = true;
+            }}
+            onTouchEnd={() => {
+              directions.current.actionY = false;
+            }}
+          >
+            <Text style={{ fontSize: 40 }}>Y</Text>
+          </Button>
+        </View>
+        <Button
+          style={{
+            alignSelf: "center",
+            height: SIZE,
+            width: SIZE,
+            justifyContent: "center",
+            borderWidth: 4,
+            borderRadius: 10,
+            alignItems: "center",
+            backgroundColor: "white",
+          }}
+          onTouchStart={() => {
+            directions.current.actionX = true;
+          }}
+          onTouchEnd={() => {
+            directions.current.actionX = false;
+          }}
+        >
+          <Text style={{ fontSize: 40 }}>X</Text>
         </Button>
       </View>
     </View>

@@ -28,13 +28,14 @@ export const convertJSONtoEntities = (
       element.height,
       options
     );
-    acc[`${key}${idx}`] = {
+    const entityName = newLevel.length === 1 ? key : `${key}${idx}`;
+    acc[entityName] = {
       body: newWall,
       size: [element.width, element.height],
-      color: color,
+      color: false ? color : "transparent",
       renderer: Box,
     };
-    acc[`${key}${idx}`][key] = true;
+    acc[entityName][key] = true;
     return acc;
   }, {} as { [key: string]: Entity });
 

@@ -14,10 +14,10 @@ import Camera from "./systems/Camera";
 import CameraRenderer from "./renderer/CameraRenderer";
 
 export default () => {
-  const directions = useRef(entities.directions);
+  const directions = useRef(entities.player.directions);
 
   const move = (directionObj: typeof directions) => (entities: Entities) => {
-    entities.directions = directionObj.current;
+    entities.player.directions = directionObj.current;
     return entities;
   };
 
@@ -30,17 +30,6 @@ export default () => {
       renderer={CameraRenderer}
     >
       <StatusBar hidden={true} />
-      <Pressable
-        onPress={() =>
-          Body.setPosition(entities.player.body, {
-            x: screenWidth / 2,
-            y: 0,
-          })
-        }
-        style={{ padding: 100 }}
-      >
-        <Text>reset position</Text>
-      </Pressable>
       <Controls directions={directions} />
     </GameEngine>
   );
