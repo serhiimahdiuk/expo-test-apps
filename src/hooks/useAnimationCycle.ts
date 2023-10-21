@@ -50,6 +50,7 @@ export const useLocalTimer = () => {
     localTimer.current = 0;
   };
   const toggleTimer = () => {
+    resetTimer();
     isRunning.current = !isRunning.current;
   };
 

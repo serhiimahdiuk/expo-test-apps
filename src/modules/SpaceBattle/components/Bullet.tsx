@@ -10,7 +10,6 @@ import {
   ENEMY_WIDTH,
 } from "../constants";
 import { Images } from "../assets";
-import { useAssets } from "expo-asset";
 import { useGetAssets } from "../../../contexts/AssetsContext";
 
 export default ({ x, y, id, destroy }: PrefabComponentProps) => {

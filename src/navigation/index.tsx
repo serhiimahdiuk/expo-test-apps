@@ -6,12 +6,14 @@ import HomeScreen from "../screens/HomeScreen";
 import TicTacToeModule from "../modules/TicTacToeModule";
 import Snake from "../modules/Snake";
 import SpaceBattle from "../modules/SpaceBattle";
+import Mario from "../modules/Mario";
 
 export type ModulesStackParamList = {
   HomeScreen: undefined;
   TicTacToe: undefined;
   Snake: undefined;
   SpaceBattle: undefined;
+  Mario: undefined;
 };
 
 const ModulesStack = createStackNavigator<ModulesStackParamList>();
@@ -33,6 +35,11 @@ export const ModulesStackNavigator = () => {
       <ModulesStack.Screen
         name="SpaceBattle"
         component={SpaceBattle}
+        options={{ gestureEnabled: false, headerShown: false }}
+      />
+      <ModulesStack.Screen
+        name="Mario"
+        component={Mario}
         options={{ gestureEnabled: false, headerShown: false }}
       />
       {/* <ModulesStack.Screen

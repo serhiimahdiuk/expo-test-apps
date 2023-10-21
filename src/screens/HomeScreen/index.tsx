@@ -8,6 +8,7 @@ const GAMES: (keyof ModulesStackParamList)[] = [
   "TicTacToe",
   "Snake",
   "SpaceBattle",
+  "Mario",
 ];
 
 export default () => {

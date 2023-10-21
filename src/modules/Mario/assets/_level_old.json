@@ -1,0 +1,106 @@
+{
+	"identifier": "AutoLayer",
+	"uniqueIdentifer": "a2a50ff0-66b0-11ec-9cd7-c721746049b9",
+	"x": -1,
+	"y": -1,
+	"width": 320,
+	"height": 208,
+	"bgColor": "#1E2027",
+	"neighbourLevels": [],
+	"customFields" : {},
+	"layers": [
+		"IntGrid_layer.png"
+	],
+	"entities": {
+		"Walls": [
+			{
+				"id": "Walls",
+				"iid": "1bb4c440-6280-11ee-934b-afd799f7c0db",
+				"layer": "Entities",
+				"x": 32,
+				"y": 96,
+				"width": 72,
+				"height": 64,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "289ff4e0-6280-11ee-934b-b7188cfd1113",
+				"layer": "Entities",
+				"x": 104,
+				"y": 128,
+				"width": 24,
+				"height": 16,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "2e5f0e70-6280-11ee-934b-a525339c0767",
+				"layer": "Entities",
+				"x": 120,
+				"y": 144,
+				"width": 32,
+				"height": 16,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "31e32c20-6280-11ee-934b-d52e855b6f33",
+				"layer": "Entities",
+				"x": 152,
+				"y": 160,
+				"width": 168,
+				"height": 48,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "36b72260-6280-11ee-934b-a39682707ab4",
+				"layer": "Entities",
+				"x": 0,
+				"y": 160,
+				"width": 40,
+				"height": 48,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "3adfbd70-6280-11ee-934b-b5fb3625bcd9",
+				"layer": "Entities",
+				"x": 0,
+				"y": 0,
+				"width": 144,
+				"height": 64,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "5161eaa0-6280-11ee-934b-7f6ecba6c5ec",
+				"layer": "Entities",
+				"x": 144,
+				"y": 80,
+				"width": 72,
+				"height": 24,
+				"color": 14120515,
+				"customFields" : {}
+			},
+			{
+				"id": "Walls",
+				"iid": "54229140-6280-11ee-934b-37c6242ef3b4",
+				"layer": "Entities",
+				"x": 192,
+				"y": 0,
+				"width": 128,
+				"height": 88,
+				"color": 14120515,
+				"customFields" : {}
+			}
+		]
+	}
+}
