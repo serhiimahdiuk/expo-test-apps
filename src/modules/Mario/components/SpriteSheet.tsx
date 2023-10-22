@@ -12,6 +12,8 @@ interface Props {
   fps?: number;
   startFrame?: number;
   action: string;
+  onEndAnimation?: () => void;
+  onStartAnimation?: () => void;
 }
 
 export default (props: Props & Entity) => {
@@ -25,6 +27,8 @@ export default (props: Props & Entity) => {
     fps = frames,
     startFrame = 0,
     action,
+    onEndAnimation,
+    onStartAnimation,
   } = props;
   const rigidbodyWidth = props.size[0];
   const rigidbodyHeight = props.size[1];
@@ -55,7 +59,11 @@ export default (props: Props & Entity) => {
   }
 
   if (generalFrames.current % newFps === 0) {
+    if (frame.current === 0) {
+      onStartAnimation && onStartAnimation();
+    }
     if (frame.current === playableFrames - 1 && !loop) {
+      onEndAnimation && onEndAnimation();
     } else {
       frame.current = (frame.current + 1) % playableFrames;
     }
