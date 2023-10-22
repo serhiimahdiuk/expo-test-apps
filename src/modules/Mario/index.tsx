@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { StyleSheet, StatusBar, Pressable, Text } from "react-native";
+import { StyleSheet, StatusBar, Pressable, Text, Button } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import useLandscape from "../../hooks/useLandscape";
 import Physics from "./systems/Physics";
@@ -12,6 +12,8 @@ import { Entities } from "./types";
 import Movement from "./systems/Movement";
 import Camera from "./systems/Camera";
 import CameraRenderer from "./renderer/CameraRenderer";
+import level from "./assets/level.json";
+import { calculateNewPosition } from "./entities/utils";
 
 export default () => {
   const directions = useRef(entities.player.directions);
@@ -30,6 +32,20 @@ export default () => {
       renderer={CameraRenderer}
     >
       <StatusBar hidden={true} />
+      <Button
+        title="RESET Player"
+        onPress={() => {
+          const player = entities.player;
+          Body.setPosition(
+            player.body,
+            calculateNewPosition({
+              x: level.entities.Player[0].x,
+              y: level.entities.Player[0].y,
+            })
+          );
+          Body.setVelocity(player.body, { x: 0, y: 0 });
+        }}
+      />
       <Controls directions={directions} />
     </GameEngine>
   );

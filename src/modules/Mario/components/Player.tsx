@@ -2,6 +2,11 @@ import React, { useRef } from "react";
 import SpriteSheet from "./SpriteSheet";
 import { Entity } from "../types";
 import Images from "../assets";
+import {
+  levelAspectRatio,
+  levelHeight,
+  levelWidth,
+} from "../entities/constanst";
 
 export default (props: Entity) => {
   const { directions } = props;
@@ -22,7 +27,6 @@ export default (props: Entity) => {
     run: {
       spriteSheet: Images.player_run,
       frames: 8,
-      offset: 20,
       fps: 24,
       action: "run",
     },
@@ -61,10 +65,14 @@ export default (props: Entity) => {
     currentMove.current = movesMapping.idle;
   }
 
+  const newLevelHeight = levelWidth / levelAspectRatio;
+  const spriteSize = (90 / levelHeight) * newLevelHeight * 1.3;
+
   return (
     <SpriteSheet
       {...currentMove.current}
-      spriteSize={130}
+      spriteSize={spriteSize}
+      showRigidbody={false}
       direction={lastDirection.current}
       {...props}
     />

@@ -3,7 +3,14 @@ import Matter from "matter-js";
 import Box from "../components/Box";
 import { JSON_ENTITIES } from "../assets/types";
 import { Entity } from "../types";
-import { newLevelHeight } from "./constanst";
+import { levelHeight, levelWidth, newLevelHeight } from "./constanst";
+
+export const calculateNewPosition = (pos: { x: number; y: number }) => {
+  return {
+    x: (pos.x / levelWidth) * screenWidth,
+    y: (pos.y / levelHeight) * newLevelHeight,
+  };
+};
 
 export const convertJSONtoEntities = (
   json: JSON_ENTITIES[],
@@ -13,10 +20,10 @@ export const convertJSONtoEntities = (
 ) => {
   const newLevel = json.map((entity) => {
     const newWall = { ...entity };
-    newWall.x = (newWall.x / 320) * screenWidth;
-    newWall.y = (newWall.y / 208) * newLevelHeight;
-    newWall.width = (newWall.width / 320) * screenWidth;
-    newWall.height = (newWall.height / 208) * newLevelHeight;
+    newWall.x = (newWall.x / levelWidth) * screenWidth;
+    newWall.y = (newWall.y / levelHeight) * newLevelHeight;
+    newWall.width = (newWall.width / levelWidth) * screenWidth;
+    newWall.height = (newWall.height / levelHeight) * newLevelHeight;
     return newWall;
   });
 

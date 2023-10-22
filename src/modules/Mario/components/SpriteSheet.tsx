@@ -20,7 +20,6 @@ export default (props: Props & Entity) => {
     frames,
     spriteSheet,
     direction,
-    offset = 0,
     showRigidbody = false,
     loop = true,
     fps = frames,
@@ -31,6 +30,7 @@ export default (props: Props & Entity) => {
   const rigidbodyHeight = props.size[1];
   const rigidbodyX = props.body.position.x - rigidbodyWidth / 2;
   const rigidbodyY = props.body.position.y - rigidbodyHeight / 2;
+
   const frame = useRef(startFrame);
   const lastAction = useRef(action);
 
@@ -45,8 +45,7 @@ export default (props: Props & Entity) => {
   const generalFrames = useRef(0);
   generalFrames.current += 1;
 
-  const spriteXoffset =
-    (spriteSize - rigidbodyWidth) / 2 - offset + startOffset;
+  const spriteXoffset = (spriteSize - rigidbodyWidth) / 2;
   const spriteYoffset = rigidbodyHeight - spriteSize;
 
   const newFps = Math.floor(60 / fps);
@@ -63,27 +62,41 @@ export default (props: Props & Entity) => {
   }
 
   return (
-    <View
-      style={{
-        position: "absolute",
-        left: rigidbodyX,
-        top: rigidbodyY,
-        width: rigidbodyWidth,
-        height: rigidbodyHeight,
-        backgroundColor: showRigidbody ? props.color : "transparent",
-        overflow: "hidden",
-        transform: [{ scaleX: direction === "left" ? -1 : 1 }],
-      }}
-    >
-      <Image
+    <>
+      {showRigidbody && (
+        <View
+          style={{
+            position: "absolute",
+            left: rigidbodyX,
+            top: rigidbodyY,
+            width: rigidbodyWidth,
+            height: rigidbodyHeight,
+            backgroundColor: "rgba(255, 0, 0, 0.5)",
+          }}
+        />
+      )}
+
+      <View
         style={{
-          left: -frame.current * spriteSize - spriteXoffset,
-          width: frames * spriteSize,
+          position: "absolute",
+          left: rigidbodyX - spriteXoffset,
+          top: rigidbodyY + spriteYoffset,
+          width: spriteSize,
           height: spriteSize,
-          top: spriteYoffset,
+          // backgroundColor: "rgba(0, 255, 0, 0.3)",
+          overflow: "hidden",
+          transform: [{ scaleX: direction === "left" ? -1 : 1 }],
         }}
-        source={spriteSheet}
-      />
-    </View>
+      >
+        <Image
+          style={{
+            left: -frame.current * spriteSize,
+            width: frames * spriteSize,
+            height: spriteSize,
+          }}
+          source={spriteSheet}
+        />
+      </View>
+    </>
   );
 };

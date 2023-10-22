@@ -6,7 +6,7 @@ import walls from "./walls";
 import floor from "./floor";
 import celling from "./cellings";
 import player from "./player";
-import { newLevelHeight } from "./constanst";
+import { levelHeight, levelWidth, newLevelHeight } from "./constanst";
 import Player from "../components/Player";
 import level from "../assets/level.json";
 import Images from "../assets";
@@ -53,8 +53,8 @@ const entities = {
             position: "absolute",
             left: 0,
             top: 0,
-            width: (level.width / 320) * screenWidth,
-            height: (level.height / 208) * newLevelHeight,
+            width: (level.width / levelWidth) * screenWidth,
+            height: (level.height / levelHeight) * newLevelHeight,
             zIndex: -1,
           }}
         />
